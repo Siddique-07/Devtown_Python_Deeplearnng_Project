@@ -1,0 +1,1464 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "qbv0oasXwSnb"
+      },
+      "source": [
+        "Image Classification Using ANN and CNN"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "DEoW1tW9wlJI"
+      },
+      "source": [
+        "CIFAR10 DATASET"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Ht_2Bm_jwoc_"
+      },
+      "source": [
+        "Siddique A"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Iajchvzuwqsv"
+      },
+      "source": [
+        "SHAPE AI PYTHON AND DEEP LEARNING BOOTCAMP FINAL PROJECT"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "F1wT1FnHug00"
+      },
+      "outputs": [],
+      "source": [
+        "# Here we import essential library \n",
+        "\n",
+        "\n",
+        "import numpy as np\n",
+        "\n",
+        "import tensorflow as tf\n",
+        "import matplotlib.pyplot as plt\n",
+        "from tensorflow import keras\n",
+        "from tensorflow.keras import datasets,layers,models"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "xhy_EiwfwyGZ"
+      },
+      "source": [
+        "load the dataset"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "zan2BJIUusbi"
+      },
+      "outputs": [],
+      "source": [
+        "data= keras.datasets.cifar10"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "_1pxtSc3u5VV",
+        "outputId": "383397b0-02a3-40df-fa15-91c9367b291d"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "Downloading data from https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz\n",
+            "170498071/170498071 [==============================] - 2s 0us/step\n"
+          ]
+        }
+      ],
+      "source": [
+        "(X_train,y_train),(X_test,y_test)=datasets.cifar10.load_data()"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "95x_ogukvOzu",
+        "outputId": "72047991-c25e-4866-e387-f04fab6834b9"
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "((array([[[[ 59,  62,  63],\n",
+              "           [ 43,  46,  45],\n",
+              "           [ 50,  48,  43],\n",
+              "           ...,\n",
+              "           [158, 132, 108],\n",
+              "           [152, 125, 102],\n",
+              "           [148, 124, 103]],\n",
+              "  \n",
+              "          [[ 16,  20,  20],\n",
+              "           [  0,   0,   0],\n",
+              "           [ 18,   8,   0],\n",
+              "           ...,\n",
+              "           [123,  88,  55],\n",
+              "           [119,  83,  50],\n",
+              "           [122,  87,  57]],\n",
+              "  \n",
+              "          [[ 25,  24,  21],\n",
+              "           [ 16,   7,   0],\n",
+              "           [ 49,  27,   8],\n",
+              "           ...,\n",
+              "           [118,  84,  50],\n",
+              "           [120,  84,  50],\n",
+              "           [109,  73,  42]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[208, 170,  96],\n",
+              "           [201, 153,  34],\n",
+              "           [198, 161,  26],\n",
+              "           ...,\n",
+              "           [160, 133,  70],\n",
+              "           [ 56,  31,   7],\n",
+              "           [ 53,  34,  20]],\n",
+              "  \n",
+              "          [[180, 139,  96],\n",
+              "           [173, 123,  42],\n",
+              "           [186, 144,  30],\n",
+              "           ...,\n",
+              "           [184, 148,  94],\n",
+              "           [ 97,  62,  34],\n",
+              "           [ 83,  53,  34]],\n",
+              "  \n",
+              "          [[177, 144, 116],\n",
+              "           [168, 129,  94],\n",
+              "           [179, 142,  87],\n",
+              "           ...,\n",
+              "           [216, 184, 140],\n",
+              "           [151, 118,  84],\n",
+              "           [123,  92,  72]]],\n",
+              "  \n",
+              "  \n",
+              "         [[[154, 177, 187],\n",
+              "           [126, 137, 136],\n",
+              "           [105, 104,  95],\n",
+              "           ...,\n",
+              "           [ 91,  95,  71],\n",
+              "           [ 87,  90,  71],\n",
+              "           [ 79,  81,  70]],\n",
+              "  \n",
+              "          [[140, 160, 169],\n",
+              "           [145, 153, 154],\n",
+              "           [125, 125, 118],\n",
+              "           ...,\n",
+              "           [ 96,  99,  78],\n",
+              "           [ 77,  80,  62],\n",
+              "           [ 71,  73,  61]],\n",
+              "  \n",
+              "          [[140, 155, 164],\n",
+              "           [139, 146, 149],\n",
+              "           [115, 115, 112],\n",
+              "           ...,\n",
+              "           [ 79,  82,  64],\n",
+              "           [ 68,  70,  55],\n",
+              "           [ 67,  69,  55]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[175, 167, 166],\n",
+              "           [156, 154, 160],\n",
+              "           [154, 160, 170],\n",
+              "           ...,\n",
+              "           [ 42,  34,  36],\n",
+              "           [ 61,  53,  57],\n",
+              "           [ 93,  83,  91]],\n",
+              "  \n",
+              "          [[165, 154, 128],\n",
+              "           [156, 152, 130],\n",
+              "           [159, 161, 142],\n",
+              "           ...,\n",
+              "           [103,  93,  96],\n",
+              "           [123, 114, 120],\n",
+              "           [131, 121, 131]],\n",
+              "  \n",
+              "          [[163, 148, 120],\n",
+              "           [158, 148, 122],\n",
+              "           [163, 156, 133],\n",
+              "           ...,\n",
+              "           [143, 133, 139],\n",
+              "           [143, 134, 142],\n",
+              "           [143, 133, 144]]],\n",
+              "  \n",
+              "  \n",
+              "         [[[255, 255, 255],\n",
+              "           [253, 253, 253],\n",
+              "           [253, 253, 253],\n",
+              "           ...,\n",
+              "           [253, 253, 253],\n",
+              "           [253, 253, 253],\n",
+              "           [253, 253, 253]],\n",
+              "  \n",
+              "          [[255, 255, 255],\n",
+              "           [255, 255, 255],\n",
+              "           [255, 255, 255],\n",
+              "           ...,\n",
+              "           [255, 255, 255],\n",
+              "           [255, 255, 255],\n",
+              "           [255, 255, 255]],\n",
+              "  \n",
+              "          [[255, 255, 255],\n",
+              "           [254, 254, 254],\n",
+              "           [254, 254, 254],\n",
+              "           ...,\n",
+              "           [254, 254, 254],\n",
+              "           [254, 254, 254],\n",
+              "           [254, 254, 254]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[113, 120, 112],\n",
+              "           [111, 118, 111],\n",
+              "           [105, 112, 106],\n",
+              "           ...,\n",
+              "           [ 72,  81,  80],\n",
+              "           [ 72,  80,  79],\n",
+              "           [ 72,  80,  79]],\n",
+              "  \n",
+              "          [[111, 118, 110],\n",
+              "           [104, 111, 104],\n",
+              "           [ 99, 106,  98],\n",
+              "           ...,\n",
+              "           [ 68,  75,  73],\n",
+              "           [ 70,  76,  75],\n",
+              "           [ 78,  84,  82]],\n",
+              "  \n",
+              "          [[106, 113, 105],\n",
+              "           [ 99, 106,  98],\n",
+              "           [ 95, 102,  94],\n",
+              "           ...,\n",
+              "           [ 78,  85,  83],\n",
+              "           [ 79,  85,  83],\n",
+              "           [ 80,  86,  84]]],\n",
+              "  \n",
+              "  \n",
+              "         ...,\n",
+              "  \n",
+              "  \n",
+              "         [[[ 35, 178, 235],\n",
+              "           [ 40, 176, 239],\n",
+              "           [ 42, 176, 241],\n",
+              "           ...,\n",
+              "           [ 99, 177, 219],\n",
+              "           [ 79, 147, 197],\n",
+              "           [ 89, 148, 189]],\n",
+              "  \n",
+              "          [[ 57, 182, 234],\n",
+              "           [ 44, 184, 250],\n",
+              "           [ 50, 183, 240],\n",
+              "           ...,\n",
+              "           [156, 182, 200],\n",
+              "           [141, 177, 206],\n",
+              "           [116, 149, 175]],\n",
+              "  \n",
+              "          [[ 98, 197, 237],\n",
+              "           [ 64, 189, 252],\n",
+              "           [ 69, 192, 245],\n",
+              "           ...,\n",
+              "           [188, 195, 206],\n",
+              "           [119, 135, 147],\n",
+              "           [ 61,  79,  90]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[ 73,  79,  77],\n",
+              "           [ 53,  63,  68],\n",
+              "           [ 54,  68,  80],\n",
+              "           ...,\n",
+              "           [ 17,  40,  64],\n",
+              "           [ 21,  36,  51],\n",
+              "           [ 33,  48,  49]],\n",
+              "  \n",
+              "          [[ 61,  68,  75],\n",
+              "           [ 55,  70,  86],\n",
+              "           [ 57,  79, 103],\n",
+              "           ...,\n",
+              "           [ 24,  48,  72],\n",
+              "           [ 17,  35,  53],\n",
+              "           [  7,  23,  32]],\n",
+              "  \n",
+              "          [[ 44,  56,  73],\n",
+              "           [ 46,  66,  88],\n",
+              "           [ 49,  77, 105],\n",
+              "           ...,\n",
+              "           [ 27,  52,  77],\n",
+              "           [ 21,  43,  66],\n",
+              "           [ 12,  31,  50]]],\n",
+              "  \n",
+              "  \n",
+              "         [[[189, 211, 240],\n",
+              "           [186, 208, 236],\n",
+              "           [185, 207, 235],\n",
+              "           ...,\n",
+              "           [175, 195, 224],\n",
+              "           [172, 194, 222],\n",
+              "           [169, 194, 220]],\n",
+              "  \n",
+              "          [[194, 210, 239],\n",
+              "           [191, 207, 236],\n",
+              "           [190, 206, 235],\n",
+              "           ...,\n",
+              "           [173, 192, 220],\n",
+              "           [171, 191, 218],\n",
+              "           [167, 190, 216]],\n",
+              "  \n",
+              "          [[208, 219, 244],\n",
+              "           [205, 216, 240],\n",
+              "           [204, 215, 239],\n",
+              "           ...,\n",
+              "           [175, 191, 217],\n",
+              "           [172, 190, 216],\n",
+              "           [169, 191, 215]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[207, 199, 181],\n",
+              "           [203, 195, 175],\n",
+              "           [203, 196, 173],\n",
+              "           ...,\n",
+              "           [135, 132, 127],\n",
+              "           [162, 158, 150],\n",
+              "           [168, 163, 151]],\n",
+              "  \n",
+              "          [[198, 190, 170],\n",
+              "           [189, 181, 159],\n",
+              "           [180, 172, 147],\n",
+              "           ...,\n",
+              "           [178, 171, 160],\n",
+              "           [175, 169, 156],\n",
+              "           [175, 169, 154]],\n",
+              "  \n",
+              "          [[198, 189, 173],\n",
+              "           [189, 181, 162],\n",
+              "           [178, 170, 149],\n",
+              "           ...,\n",
+              "           [195, 184, 169],\n",
+              "           [196, 189, 171],\n",
+              "           [195, 190, 171]]],\n",
+              "  \n",
+              "  \n",
+              "         [[[229, 229, 239],\n",
+              "           [236, 237, 247],\n",
+              "           [234, 236, 247],\n",
+              "           ...,\n",
+              "           [217, 219, 233],\n",
+              "           [221, 223, 234],\n",
+              "           [222, 223, 233]],\n",
+              "  \n",
+              "          [[222, 221, 229],\n",
+              "           [239, 239, 249],\n",
+              "           [233, 234, 246],\n",
+              "           ...,\n",
+              "           [223, 223, 236],\n",
+              "           [227, 228, 238],\n",
+              "           [210, 211, 220]],\n",
+              "  \n",
+              "          [[213, 206, 211],\n",
+              "           [234, 232, 239],\n",
+              "           [231, 233, 244],\n",
+              "           ...,\n",
+              "           [220, 220, 232],\n",
+              "           [220, 219, 232],\n",
+              "           [202, 203, 215]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[150, 143, 135],\n",
+              "           [140, 135, 127],\n",
+              "           [132, 127, 120],\n",
+              "           ...,\n",
+              "           [224, 222, 218],\n",
+              "           [230, 228, 225],\n",
+              "           [241, 241, 238]],\n",
+              "  \n",
+              "          [[137, 132, 126],\n",
+              "           [130, 127, 120],\n",
+              "           [125, 121, 115],\n",
+              "           ...,\n",
+              "           [181, 180, 178],\n",
+              "           [202, 201, 198],\n",
+              "           [212, 211, 207]],\n",
+              "  \n",
+              "          [[122, 119, 114],\n",
+              "           [118, 116, 110],\n",
+              "           [120, 116, 111],\n",
+              "           ...,\n",
+              "           [179, 177, 173],\n",
+              "           [164, 164, 162],\n",
+              "           [163, 163, 161]]]], dtype=uint8), array([[6],\n",
+              "         [9],\n",
+              "         [9],\n",
+              "         ...,\n",
+              "         [9],\n",
+              "         [1],\n",
+              "         [1]], dtype=uint8)), (array([[[[158, 112,  49],\n",
+              "           [159, 111,  47],\n",
+              "           [165, 116,  51],\n",
+              "           ...,\n",
+              "           [137,  95,  36],\n",
+              "           [126,  91,  36],\n",
+              "           [116,  85,  33]],\n",
+              "  \n",
+              "          [[152, 112,  51],\n",
+              "           [151, 110,  40],\n",
+              "           [159, 114,  45],\n",
+              "           ...,\n",
+              "           [136,  95,  31],\n",
+              "           [125,  91,  32],\n",
+              "           [119,  88,  34]],\n",
+              "  \n",
+              "          [[151, 110,  47],\n",
+              "           [151, 109,  33],\n",
+              "           [158, 111,  36],\n",
+              "           ...,\n",
+              "           [139,  98,  34],\n",
+              "           [130,  95,  34],\n",
+              "           [120,  89,  33]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[ 68, 124, 177],\n",
+              "           [ 42, 100, 148],\n",
+              "           [ 31,  88, 137],\n",
+              "           ...,\n",
+              "           [ 38,  97, 146],\n",
+              "           [ 13,  64, 108],\n",
+              "           [ 40,  85, 127]],\n",
+              "  \n",
+              "          [[ 61, 116, 168],\n",
+              "           [ 49, 102, 148],\n",
+              "           [ 35,  85, 132],\n",
+              "           ...,\n",
+              "           [ 26,  82, 130],\n",
+              "           [ 29,  82, 126],\n",
+              "           [ 20,  64, 107]],\n",
+              "  \n",
+              "          [[ 54, 107, 160],\n",
+              "           [ 56, 105, 149],\n",
+              "           [ 45,  89, 132],\n",
+              "           ...,\n",
+              "           [ 24,  77, 124],\n",
+              "           [ 34,  84, 129],\n",
+              "           [ 21,  67, 110]]],\n",
+              "  \n",
+              "  \n",
+              "         [[[235, 235, 235],\n",
+              "           [231, 231, 231],\n",
+              "           [232, 232, 232],\n",
+              "           ...,\n",
+              "           [233, 233, 233],\n",
+              "           [233, 233, 233],\n",
+              "           [232, 232, 232]],\n",
+              "  \n",
+              "          [[238, 238, 238],\n",
+              "           [235, 235, 235],\n",
+              "           [235, 235, 235],\n",
+              "           ...,\n",
+              "           [236, 236, 236],\n",
+              "           [236, 236, 236],\n",
+              "           [235, 235, 235]],\n",
+              "  \n",
+              "          [[237, 237, 237],\n",
+              "           [234, 234, 234],\n",
+              "           [234, 234, 234],\n",
+              "           ...,\n",
+              "           [235, 235, 235],\n",
+              "           [235, 235, 235],\n",
+              "           [234, 234, 234]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[ 87,  99,  89],\n",
+              "           [ 43,  51,  37],\n",
+              "           [ 19,  23,  11],\n",
+              "           ...,\n",
+              "           [169, 184, 179],\n",
+              "           [182, 197, 193],\n",
+              "           [188, 202, 201]],\n",
+              "  \n",
+              "          [[ 82,  96,  82],\n",
+              "           [ 46,  57,  36],\n",
+              "           [ 36,  44,  22],\n",
+              "           ...,\n",
+              "           [174, 189, 183],\n",
+              "           [185, 200, 196],\n",
+              "           [187, 202, 200]],\n",
+              "  \n",
+              "          [[ 85, 101,  83],\n",
+              "           [ 62,  75,  48],\n",
+              "           [ 58,  67,  38],\n",
+              "           ...,\n",
+              "           [168, 183, 178],\n",
+              "           [180, 195, 191],\n",
+              "           [186, 200, 199]]],\n",
+              "  \n",
+              "  \n",
+              "         [[[158, 190, 222],\n",
+              "           [158, 187, 218],\n",
+              "           [139, 166, 194],\n",
+              "           ...,\n",
+              "           [228, 231, 234],\n",
+              "           [237, 239, 243],\n",
+              "           [238, 241, 246]],\n",
+              "  \n",
+              "          [[170, 200, 229],\n",
+              "           [172, 199, 226],\n",
+              "           [151, 176, 201],\n",
+              "           ...,\n",
+              "           [232, 232, 236],\n",
+              "           [246, 246, 250],\n",
+              "           [246, 247, 251]],\n",
+              "  \n",
+              "          [[174, 201, 225],\n",
+              "           [176, 200, 222],\n",
+              "           [157, 179, 199],\n",
+              "           ...,\n",
+              "           [230, 229, 232],\n",
+              "           [250, 249, 251],\n",
+              "           [245, 244, 247]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[ 31,  40,  45],\n",
+              "           [ 30,  39,  44],\n",
+              "           [ 26,  35,  40],\n",
+              "           ...,\n",
+              "           [ 37,  40,  46],\n",
+              "           [  9,  13,  14],\n",
+              "           [  4,   7,   5]],\n",
+              "  \n",
+              "          [[ 23,  34,  39],\n",
+              "           [ 27,  38,  43],\n",
+              "           [ 25,  36,  41],\n",
+              "           ...,\n",
+              "           [ 19,  20,  24],\n",
+              "           [  4,   6,   3],\n",
+              "           [  5,   7,   3]],\n",
+              "  \n",
+              "          [[ 28,  41,  47],\n",
+              "           [ 30,  43,  50],\n",
+              "           [ 32,  45,  52],\n",
+              "           ...,\n",
+              "           [  5,   6,   8],\n",
+              "           [  4,   5,   3],\n",
+              "           [  7,   8,   7]]],\n",
+              "  \n",
+              "  \n",
+              "         ...,\n",
+              "  \n",
+              "  \n",
+              "         [[[ 20,  15,  12],\n",
+              "           [ 19,  14,  11],\n",
+              "           [ 15,  14,  11],\n",
+              "           ...,\n",
+              "           [ 10,   9,   7],\n",
+              "           [ 12,  11,   9],\n",
+              "           [ 13,  12,  10]],\n",
+              "  \n",
+              "          [[ 21,  16,  13],\n",
+              "           [ 20,  16,  13],\n",
+              "           [ 18,  17,  12],\n",
+              "           ...,\n",
+              "           [ 10,   9,   7],\n",
+              "           [ 10,   9,   7],\n",
+              "           [ 12,  11,   9]],\n",
+              "  \n",
+              "          [[ 21,  16,  13],\n",
+              "           [ 21,  17,  12],\n",
+              "           [ 20,  18,  11],\n",
+              "           ...,\n",
+              "           [ 12,  11,   9],\n",
+              "           [ 12,  11,   9],\n",
+              "           [ 13,  12,  10]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[ 33,  25,  13],\n",
+              "           [ 34,  26,  15],\n",
+              "           [ 34,  26,  15],\n",
+              "           ...,\n",
+              "           [ 28,  25,  52],\n",
+              "           [ 29,  25,  58],\n",
+              "           [ 23,  20,  42]],\n",
+              "  \n",
+              "          [[ 33,  25,  14],\n",
+              "           [ 34,  26,  15],\n",
+              "           [ 34,  26,  15],\n",
+              "           ...,\n",
+              "           [ 27,  24,  52],\n",
+              "           [ 27,  24,  56],\n",
+              "           [ 25,  22,  47]],\n",
+              "  \n",
+              "          [[ 31,  23,  12],\n",
+              "           [ 32,  24,  13],\n",
+              "           [ 33,  25,  14],\n",
+              "           ...,\n",
+              "           [ 24,  23,  50],\n",
+              "           [ 26,  23,  53],\n",
+              "           [ 25,  20,  47]]],\n",
+              "  \n",
+              "  \n",
+              "         [[[ 25,  40,  12],\n",
+              "           [ 15,  36,   3],\n",
+              "           [ 23,  41,  18],\n",
+              "           ...,\n",
+              "           [ 61,  82,  78],\n",
+              "           [ 92, 113, 112],\n",
+              "           [ 75,  89,  92]],\n",
+              "  \n",
+              "          [[ 12,  25,   6],\n",
+              "           [ 20,  37,   7],\n",
+              "           [ 24,  36,  15],\n",
+              "           ...,\n",
+              "           [115, 134, 138],\n",
+              "           [149, 168, 177],\n",
+              "           [104, 117, 131]],\n",
+              "  \n",
+              "          [[ 12,  25,  11],\n",
+              "           [ 15,  29,   6],\n",
+              "           [ 34,  40,  24],\n",
+              "           ...,\n",
+              "           [154, 172, 182],\n",
+              "           [157, 175, 192],\n",
+              "           [116, 129, 151]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[100, 129,  81],\n",
+              "           [103, 132,  84],\n",
+              "           [104, 134,  86],\n",
+              "           ...,\n",
+              "           [ 97, 128,  84],\n",
+              "           [ 98, 126,  84],\n",
+              "           [ 91, 121,  79]],\n",
+              "  \n",
+              "          [[103, 132,  83],\n",
+              "           [104, 131,  83],\n",
+              "           [107, 135,  87],\n",
+              "           ...,\n",
+              "           [101, 132,  87],\n",
+              "           [ 99, 127,  84],\n",
+              "           [ 92, 121,  79]],\n",
+              "  \n",
+              "          [[ 95, 126,  78],\n",
+              "           [ 95, 123,  76],\n",
+              "           [101, 128,  81],\n",
+              "           ...,\n",
+              "           [ 93, 124,  80],\n",
+              "           [ 95, 123,  81],\n",
+              "           [ 92, 120,  80]]],\n",
+              "  \n",
+              "  \n",
+              "         [[[ 73,  78,  75],\n",
+              "           [ 98, 103, 113],\n",
+              "           [ 99, 106, 114],\n",
+              "           ...,\n",
+              "           [135, 150, 152],\n",
+              "           [135, 149, 154],\n",
+              "           [203, 215, 223]],\n",
+              "  \n",
+              "          [[ 69,  73,  70],\n",
+              "           [ 84,  89,  97],\n",
+              "           [ 68,  75,  81],\n",
+              "           ...,\n",
+              "           [ 85,  95,  89],\n",
+              "           [ 71,  82,  80],\n",
+              "           [120, 133, 135]],\n",
+              "  \n",
+              "          [[ 69,  73,  70],\n",
+              "           [ 90,  95, 100],\n",
+              "           [ 62,  71,  74],\n",
+              "           ...,\n",
+              "           [ 74,  81,  70],\n",
+              "           [ 53,  62,  54],\n",
+              "           [ 62,  74,  69]],\n",
+              "  \n",
+              "          ...,\n",
+              "  \n",
+              "          [[123, 128,  96],\n",
+              "           [132, 132, 102],\n",
+              "           [129, 128, 100],\n",
+              "           ...,\n",
+              "           [108, 107,  88],\n",
+              "           [ 62,  60,  55],\n",
+              "           [ 27,  27,  28]],\n",
+              "  \n",
+              "          [[115, 121,  91],\n",
+              "           [123, 124,  95],\n",
+              "           [129, 126,  99],\n",
+              "           ...,\n",
+              "           [115, 116,  94],\n",
+              "           [ 66,  65,  59],\n",
+              "           [ 27,  27,  27]],\n",
+              "  \n",
+              "          [[116, 120,  90],\n",
+              "           [121, 122,  94],\n",
+              "           [129, 128, 101],\n",
+              "           ...,\n",
+              "           [116, 115,  94],\n",
+              "           [ 68,  65,  58],\n",
+              "           [ 27,  26,  26]]]], dtype=uint8), array([[3],\n",
+              "         [8],\n",
+              "         [8],\n",
+              "         ...,\n",
+              "         [5],\n",
+              "         [1],\n",
+              "         [7]], dtype=uint8)))"
+            ]
+          },
+          "execution_count": 6,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "data.load_data()"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "zApXoL8XvQQF"
+      },
+      "outputs": [],
+      "source": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "NwxQ_AeSwQBa"
+      },
+      "source": [
+        "how here we will checking shape of training and testing dataset"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "gEv2Rn371r2k",
+        "outputId": "5bbffcaa-7524-4610-e4d9-fa9185df76c5"
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "(50000, 32, 32, 3)"
+            ]
+          },
+          "execution_count": 7,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "X_train.shape"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "UBm8oqcO1tEZ",
+        "outputId": "31711337-886c-42fa-b5be-70e6f78068b2"
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "(10000, 32, 32, 3)"
+            ]
+          },
+          "execution_count": 8,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "X_test.shape"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "g29xnGhF11EI",
+        "outputId": "517fea7d-30dd-4a40-f061-ac7bcd21f8ec"
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "(50000, 1)"
+            ]
+          },
+          "execution_count": 9,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "y_train.shape"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "9gGWGhBO12x6",
+        "outputId": "62942db7-5fee-4c7f-e0f9-d38812db14f9"
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "(10000, 1)"
+            ]
+          },
+          "execution_count": 10,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "y_test.shape"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "yeRiooiG2Dtz"
+      },
+      "source": [
+        "reshaping y_train"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "xGmWQWUH2GVh",
+        "outputId": "604684ce-2125-48ea-8891-dd656a95c283"
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "array([[6],\n",
+              "       [9],\n",
+              "       [9],\n",
+              "       [4],\n",
+              "       [1]], dtype=uint8)"
+            ]
+          },
+          "execution_count": 11,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "y_train[:5]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "B1vEgtXr2Mxw",
+        "outputId": "e777a35a-2ff0-4c18-e5da-ce330e7c7a76"
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "array([6, 9, 9, 4, 1], dtype=uint8)"
+            ]
+          },
+          "execution_count": 12,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "y_train=y_train.reshape(-1,)\n",
+        "y_train[:5]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "bo93S-Ua2YRI"
+      },
+      "outputs": [],
+      "source": [
+        "classes = [\"airplane\",\"automobile\",\"bird\",\"cat\",\"deer\",\"dog\",\"frog\",\"horse\",\"ship\",\"truck\"]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 292
+        },
+        "id": "qUAyEtyf2k9x",
+        "outputId": "1699e3e9-5d6a-4766-d823-e03bf5f3744d"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<matplotlib.image.AxesImage at 0x7fc59c5a4c10>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 47
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 288x288 with 1 Axes>"
+            ],
+            "image/png": "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\n"
+          },
+          "metadata": {
+            "needs_background": "light"
+          }
+        }
+      ],
+      "source": [
+        "plt.matshow(X_train[0])"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 1000
+        },
+        "id": "evUtsflv2vQ_",
+        "outputId": "7c4a8cc1-9601-400b-b40b-1616a749935d"
+      },
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 288x288 with 1 Axes>"
+            ],
+            "image/png": "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\n"
+          },
+          "metadata": {
+            "needs_background": "light"
+          }
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 288x288 with 1 Axes>"
+            ],
+            "image/png": "iVBORw0KGgoAAAANSUhEUgAAAQEAAAECCAYAAAD+eGJTAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4yLjIsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+WH4yJAAANP0lEQVR4nO3df+hd9X3H8eerJralCsbahRDtrK6slNJFCdKCFCdYnP+oUMSOQQaFlDGH/jGYdLDa/tWOadlfDjelYWy2rs4pMmYzSbF/aaONMTF06ojMEA3FifpPN/W9P+7J9l24v3J/ne/3+3k+wuWee+6557xzvve+vp/z+ZzvPakqJLXrQ30XIKlfhoDUOENAapwhIDXOEJAaZwhIjeslBJJcn+QXSV5OcmcfNayp5XiSF5IcSnJwxdt+IMmpJEfWzLswyf4kL3X323qs5a4kJ7p9cyjJDSuo45IkB5K8mORoktu7+SvfL2Nq6WO/fCTJM0me72r5Vjf/U0me7j5LP0xy7lmvvKpWegPOAV4BLgPOBZ4HPrvqOtbUcxy4qKdtfwm4EjiyZt6fA3d203cC3+2xlruAP17xPtkBXNlNnw/8G/DZPvbLmFr62C8BzuumtwJPA18AHgJu7eb/FfAHZ7vuPloCVwEvV9W/V9V/AT8Abuyhjt5V1VPAm2fMvhHY103vA27qsZaVq6qTVfVcN/0OcAzYSQ/7ZUwtK1cD73YPt3a3Aq4FftTNn2m/9BECO4H/WPP4NXrasZ0Cfpzk2SR7e6zjtO1VdbKbfh3Y3mcxwG1JDneHCys5NDktyaXAFQx+6/W6X86oBXrYL0nOSXIIOAXsZ9Cifquq3usWmemzZMcgXF1VVwK/A/xhki/1XdBpNWjj9Xle973A5cAu4CRw96o2nOQ84GHgjqp6e+1zq94vQ2rpZb9U1ftVtQu4mEGL+jOLWG8fIXACuGTN44u7eb2oqhPd/SngEQY7t09vJNkB0N2f6quQqnqje+N9APw1K9o3SbYy+ND9XVX9Yze7l/0yrJa+9stpVfUWcAD4InBBki3dUzN9lvoIgZ8Bn+56Nc8FbgUe66EOknwsyfmnp4EvA0fGv2rpHgP2dNN7gEf7KuT0h65zMyvYN0kC3A8cq6p71jy18v0yqpae9ssnklzQTX8UuI5BH8UB4CvdYrPtl1X2cK7p6byBQU/rK8Cf9lFDV8dlDEYnngeOrroW4EEGzcn/ZnA89zXg48CTwEvAvwIX9ljL3wIvAIcZfAh3rKCOqxk09Q8Dh7rbDX3slzG19LFfPg/8vNvmEeDP1ryHnwFeBv4B+PDZrjvdiiQ1yo5BqXGGgNQ4Q0BqnCEgNc4QkBrXWwisk1N0AWsZxVqG22y19NkSWDc7EmsZxVqG21S1eDggNW6uk4WSXA/8JYPvCPibqvrOhOU9M0nqSVVl2PyZQyDJOQxO/b2OwWmmPwO+WlUvjnlNDU7HHlrgTHVIms6oEJjncMAvB5E2gXlCYL19OYikGWyZvMh8uiGM9dSbKmmNeUJgqi8Hqar7gPvAjkFpPZonBP73y0EYfPhvBX531pWN6jDU+rGeOm9nfbsUo1+4md+B4352M4dAVb2X5DbgCQZDhA9U1dFZ1yepHyv9UpFxQ4Ra/2wJbFzdtwgtfIhQ0iZgCEiNMwSkxhkCUuOWfrLQtNZTp1PLNkzn2Ji3y/h30uhnW30H2hKQGmcISI0zBKTGGQJS4wwBqXGGgNS4dTNE6N8UrM644dhWh8lgc78Hx/3MbQlIjTMEpMYZAlLjDAGpcYaA1DhDQGrcuhki1GKNGxIaNxK2Uf6Ycxlljt9nm3f40JaA1DhDQGqcISA1zhCQGmcISI0zBKTGOUTYoI0yDLgcY4b6Nu8o4FhzhUCS48A7wPvAe1W1exFFSVqdRbQEfruqfrmA9UjqgX0CUuPmDYECfpzk2SR7hy2QZG+Sg0kOzrktSUsw16XJk+ysqhNJfg3YD/xRVT01ZnkvTb4iXtFplNk6Bjf6u3ZplyavqhPd/SngEeCqedYnafVm7hhM8jHgQ1X1Tjf9ZeDbs5eyjN9cS8jvsdfAW/z/IRv+d9B6M9tFDGvMz2HWn9Dw38vdOlfYkptndGA78EjXvN8C/H1V/ctCqpK0MnP1CZz1xsb2CdgSGGbWlsAyamnbxm4JFCynT0DSxmcISI0zBKTGGQJS4zb1XxHO3LUy9oWr7XAb18E3rtNwXGeVXYYjjN1ps+21cUOL49a5yp+RLQGpcYaA1DhDQGqcISA1zhCQGmcISI3b1EOEmXGcZTOcd7/x/wc9mPn9soSVrpAtAalxhoDUOENAapwhIDXOEJAaZwhIjVs/Q4Rjv2tp5pXO8MzG+Qu8zTCUqf7ZEpAaZwhIjTMEpMYZAlLjDAGpcYaA1LiJIZDkgSSnkhxZM+/CJPuTvNTdb5u3kBr3r2a8wcjb+Fpme93KZcxNmtI0LYHvA9efMe9O4Mmq+jTwZPdY0gY0MQSq6ingzTNm3wjs66b3ATctuC5JKzJrn8D2qjrZTb/O4ArFkjaguU8brqpKRn+HT5K9wN55tyNpOWZtCbyRZAdAd39q1IJVdV9V7a6q3TNuS9ISzRoCjwF7uuk9wKOLKUfSqqUmXGMtyYPANcBFwBvAN4F/Ah4CPgm8CtxSVWd2Hg5bVyXDx68m1SFpPlXD/1R3YggskiEg9WdUCHjGoNQ4Q0BqnCEgNc4QkBpnCEiN6+GLRh0FkNYTWwJS4wwBqXGGgNQ4Q0BqnCEgNc4QkBq38iFC/05IWl9sCUiNMwSkxhkCUuMMAalxhoDUOENAapwhIDXOEJAaZwhIjTMEpMYZAlLjDAGpcYaA1LiJIZDkgSSnkhxZM++uJCeSHOpuNyy3TEnLMk1L4PvA9UPmf6+qdnW3f15sWZJWZWIIVNVTwMQrDkvamObpE7gtyeHucGHbwiqStFKzhsC9wOXALuAkcPeoBZPsTXIwycEZtyVpiVJTfN9XkkuBx6vqc2fz3JBl/XIxqSdVlWHzZ2oJJNmx5uHNwJFRy0pa3yZ+0WiSB4FrgIuSvAZ8E7gmyS4GFxY8Dnx9iTVKWqKpDgcWtjEPB6TeLPRwQNLmYQhIjTMEpMYZAlLjDAGpcYaA1DhDQGqcISA1zhCQGmcISI0zBKTGGQJS4wwBqXGGgNQ4Q0BqnCEgNc4QkBpnCEiNMwSkxhkCUuMMAalxhoDUOENAapwhIDXOEJAaZwhIjZsYAkkuSXIgyYtJjia5vZt/YZL9SV7q7rctv1xJizbxWoTdFYh3VNVzSc4HngVuAn4feLOqvpPkTmBbVf3JhHV5LUKpJzNfi7CqTlbVc930O8AxYCdwI7CvW2wfg2CQtMGcVZ9AkkuBK4Cnge1VdbJ76nVg+0Irk7QSW6ZdMMl5wMPAHVX1dvJ/LYuqqlFN/SR7gb3zFippOSb2CQAk2Qo8DjxRVfd0834BXFNVJ7t+g59U1W9OWI99AlJPZu4TyOBX/v3AsdMB0HkM2NNN7wEenbdISas3zejA1cBPgReAD7rZ32DQL/AQ8EngVeCWqnpzwrpsCUg9GdUSmOpwYFEMAak/Mx8OSNrcDAGpcYaA1DhDQGqcISA1zhCQGmcISI0zBKTGGQJS4wwBqXGGgNQ4Q0BqnCEgNc4QkBpnCEiNMwSkxhkCUuMMAalxhoDUOENAapwhIDXOEJAaZwhIjTMEpMYZAlLjDAGpcdNckPSSJAeSvJjkaJLbu/l3JTmR5FB3u2H55UpatGkuSLoD2FFVzyU5H3gWuAm4BXi3qv5i6o15LUKpN6OuRbhliheeBE520+8kOQbsXGx5kvpyVn0CSS4FrmBwWXKA25IcTvJAkm0Lrk3SCkwdAknOAx4G7qiqt4F7gcuBXQxaCnePeN3eJAeTHFxAvZIWbGKfAECSrcDjwBNVdc+Q5y8FHq+qz01Yj30CUk9G9QlMMzoQ4H7g2NoA6DoMT7sZODJvkZJWb5rRgauBnwIvAB90s78BfJXBoUABx4Gvd52I49ZlS0DqyaiWwFSHA4tiCEj9mflwQNLmZghIjTMEpMYZAlLjDAGpcYaA1DhDQGqcISA1zhCQGmcISI0zBKTGGQJS4wwBqXGGgNQ4Q0BqnCEgNc4QkBpnCEiNMwSkxhkCUuMMAalxhoDUOENAapwhIDXOEJAaZwhIjZvmgqQfSfJMkueTHE3yrW7+p5I8neTlJD9Mcu7yy5W0aNO0BH4FXFtVv8XgAqTXJ/kC8F3ge1X1G8B/Al9bXpmSlmViCNTAu93Drd2tgGuBH3Xz9wE3LaVCSUs1VZ9AknOSHAJOAfuBV4C3quq9bpHXgJ3LKVHSMk0VAlX1flXtAi4GrgI+M+0GkuxNcjDJwRlrlLREZzU6UFVvAQeALwIXJNnSPXUxcGLEa+6rqt1VtXuuSiUtxTSjA59IckE3/VHgOuAYgzD4SrfYHuDRZRUpaXlSVeMXSD7PoOPvHAah8VBVfTvJZcAPgAuBnwO/V1W/mrCu8RuTtDRVlWHzJ4bAIhkCUn9GhYBnDEqNMwSkxhkCUuMMAalxhoDUuC2TF1moXwKvdtMXdY/XA2sZzlqG24i1/PqoJ1Y6RPj/NpwcXC9nEVrLcNYy3GarxcMBqXGGgNS4PkPgvh63fSZrGc5ahttUtfTWJyBpffBwQGqcISA1zhCQGmcISI0zBKTG/Q/Ko+zBoWEQSwAAAABJRU5ErkJggg==\n"
+          },
+          "metadata": {
+            "needs_background": "light"
+          }
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 288x288 with 1 Axes>"
+            ],
+            "image/png": "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\n"
+          },
+          "metadata": {
+            "needs_background": "light"
+          }
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 288x288 with 1 Axes>"
+            ],
+            "image/png": "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\n"
+          },
+          "metadata": {
+            "needs_background": "light"
+          }
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 288x288 with 1 Axes>"
+            ],
+            "image/png": "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\n"
+          },
+          "metadata": {
+            "needs_background": "light"
+          }
+        }
+      ],
+      "source": [
+        "for i in range(1,6):\n",
+        "    plt.matshow(X_train[i])"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Gya4IfWe23e0"
+      },
+      "source": [
+        "Normalizing the training data"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "glgxXMhI25p_"
+      },
+      "outputs": [],
+      "source": [
+        "X_train=X_train/255.0\n",
+        "X_train=X_train/255.0"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "poiWrbZ33GY8"
+      },
+      "outputs": [],
+      "source": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "MwWbbfI23Ptf"
+      },
+      "source": [
+        "now here we create ANN model creation for image classification"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "background_save": true,
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "4sHiI5ID3XXa",
+        "outputId": "3f22a174-dd88-4ba5-8060-ee5b7577e1fb"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "Epoch 1/5\n",
+            "1563/1563 [==============================] - 117s 75ms/step - loss: 2.3007 - accuracy: 0.1195\n",
+            "Epoch 2/5\n",
+            "1563/1563 [==============================] - 115s 74ms/step - loss: 2.2993 - accuracy: 0.1325\n",
+            "Epoch 3/5\n",
+            "1563/1563 [==============================] - 117s 75ms/step - loss: 2.2980 - accuracy: 0.1461\n",
+            "Epoch 4/5\n",
+            "1563/1563 [==============================] - 119s 76ms/step - loss: 2.2963 - accuracy: 0.1436\n",
+            "Epoch 5/5\n",
+            "1563/1563 [==============================] - 120s 77ms/step - loss: 2.2940 - accuracy: 0.1588\n"
+          ]
+        },
+        {
+          "data": {
+            "text/plain": [
+              "<keras.callbacks.History at 0x7fc5ace0fbd0>"
+            ]
+          },
+          "execution_count": 18,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "ann = models.Sequential([\n",
+        "        layers.Flatten(input_shape=(32,32,3)),   # here we can  apply multiple hidden layers\n",
+        "        layers.Dense(3000, activation='relu'),   # relu activation function\n",
+        "        layers.Dense(3000, activation='relu'),   \n",
+        "        layers.Dense(1000, activation='relu'),\n",
+        "        layers.Dense(10, activation='softmax')  # softmax activation function  \n",
+        "    ])\n",
+        "\n",
+        "ann.compile(optimizer='SGD',\n",
+        "              loss='sparse_categorical_crossentropy',\n",
+        "              metrics=['accuracy'])\n",
+        "\n",
+        "ann.fit(X_train, y_train, epochs=5)   # here we fit x and y"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "background_save": true
+        },
+        "id": "NiIG3kQF4T5d",
+        "outputId": "a2a811e3-057c-42d2-99cc-11d87186ad28"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "313/313 [==============================] - 8s 25ms/step\n"
+          ]
+        }
+      ],
+      "source": [
+        "y_pred = ann.predict(X_test)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "T49-DK0WAzjV"
+      },
+      "source": [
+        "313/313 [==============================] - 8s 25ms/step"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "L8vdD9CWA4Tu",
+        "outputId": "45576600-aff7-402b-e9b7-10286cfc0bfd"
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "array([[9.9999994e-01, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00,\n",
+              "        0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00,\n",
+              "        0.0000000e+00, 0.0000000e+00],\n",
+              "       [4.1203807e-25, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00,\n",
+              "        0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00,\n",
+              "        9.9999994e-01, 0.0000000e+00],\n",
+              "       [9.9996144e-01, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00,\n",
+              "        0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00,\n",
+              "        3.8510127e-05, 0.0000000e+00],\n",
+              "       [9.9999994e-01, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00,\n",
+              "        0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00,\n",
+              "        0.0000000e+00, 0.0000000e+00],\n",
+              "       [9.9999994e-01, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00,\n",
+              "        0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00,\n",
+              "        0.0000000e+00, 0.0000000e+00]], dtype=float32)"
+            ]
+          },
+          "execution_count": 33,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "y_pred[:5]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "6WDxtw34CKad",
+        "outputId": "f55cf27c-4136-4110-9419-28cef6e5add2"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "313/313 [==============================] - 15s 45ms/step - loss: 982.8163 - accuracy: 0.1050\n"
+          ]
+        },
+        {
+          "data": {
+            "text/plain": [
+              "[982.8162841796875, 0.10499999672174454]"
+            ]
+          },
+          "execution_count": 35,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "ann.evaluate(X_test,y_test)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "0xpw-1L9CPkR"
+      },
+      "source": [
+        "Now here we create CNN model creation to train our images"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "z0bI2U4QCWgp"
+      },
+      "outputs": [],
+      "source": [
+        "mohd_cnn = models.Sequential([\n",
+        "    layers.Conv2D(filters=32, kernel_size=(3, 3), activation='relu', input_shape=(32, 32, 3)), # here we can  apply multiple hidden layers\n",
+        "    layers.MaxPooling2D((2, 2)),\n",
+        "    \n",
+        "    layers.Conv2D(filters=64, kernel_size=(3, 3), activation='relu'),\n",
+        "    layers.MaxPooling2D((2, 2)),\n",
+        "    \n",
+        "    layers.Flatten(),\n",
+        "    layers.Dense(64, activation='relu'),\n",
+        "    layers.Dense(10, activation='softmax')\n",
+        "])"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "HvUerI1bCW3r"
+      },
+      "outputs": [],
+      "source": [
+        "Siddique_cnn.compile(optimizer='adam',\n",
+        "              loss='sparse_categorical_crossentropy',\n",
+        "              metrics=['accuracy'])"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "nauwo7jhDQul",
+        "outputId": "4a220b25-2caf-4af4-dff2-acdb2d277ec1",
+        "collapsed": true
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Epoch 1/10\n",
+            "1563/1563 [==============================] - 41s 26ms/step - loss: 2.3028 - accuracy: 0.0981\n",
+            "Epoch 2/10\n",
+            "1563/1563 [==============================] - 39s 25ms/step - loss: 2.3028 - accuracy: 0.0973\n",
+            "Epoch 3/10\n",
+            "1563/1563 [==============================] - 40s 25ms/step - loss: 2.3028 - accuracy: 0.0976\n",
+            "Epoch 4/10\n",
+            "1563/1563 [==============================] - 46s 30ms/step - loss: 2.3028 - accuracy: 0.0985\n",
+            "Epoch 5/10\n",
+            "1563/1563 [==============================] - 40s 25ms/step - loss: 2.3028 - accuracy: 0.0966\n",
+            "Epoch 6/10\n",
+            "1563/1563 [==============================] - 40s 26ms/step - loss: 2.3027 - accuracy: 0.0991\n",
+            "Epoch 7/10\n",
+            "1563/1563 [==============================] - 40s 26ms/step - loss: 2.3028 - accuracy: 0.0986\n",
+            "Epoch 8/10\n",
+            "1563/1563 [==============================] - 40s 25ms/step - loss: 2.3027 - accuracy: 0.0990\n",
+            "Epoch 9/10\n",
+            "1563/1563 [==============================] - 40s 25ms/step - loss: 2.3027 - accuracy: 0.0975\n",
+            "Epoch 10/10\n",
+            "1563/1563 [==============================] - 40s 26ms/step - loss: 2.3028 - accuracy: 0.0985\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<keras.callbacks.History at 0x7fc59c273c90>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 52
+        }
+      ],
+      "source": [
+        "Siddique_cnn.fit(X_train, y_train, epochs=10)  # here we fit x and y training dataset with epochs 10"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "NDGEd6RiDcJk",
+        "outputId": "5a013af3-02df-49d8-c5ec-5776f7b01207"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "313/313 [==============================] - 3s 9ms/step\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[0.        , 0.        , 0.        , 0.        , 0.        ,\n",
+              "        0.        , 0.        , 0.        , 0.99999994, 0.        ],\n",
+              "       [0.        , 0.        , 0.        , 0.        , 0.        ,\n",
+              "        0.        , 0.        , 0.        , 0.99999994, 0.        ],\n",
+              "       [0.        , 0.        , 0.        , 0.        , 0.        ,\n",
+              "        0.        , 0.        , 0.        , 0.99999994, 0.        ],\n",
+              "       [0.        , 0.        , 0.        , 0.        , 0.        ,\n",
+              "        0.        , 0.        , 0.        , 0.99999994, 0.        ],\n",
+              "       [0.        , 0.        , 0.        , 0.        , 0.        ,\n",
+              "        0.        , 0.        , 0.        , 0.99999994, 0.        ]],\n",
+              "      dtype=float32)"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 54
+        }
+      ],
+      "source": [
+        "y_pred = Siddique_cnn.predict(X_test)\n",
+        "y_pred[:5 ]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "0K6oxetVDdAy",
+        "outputId": "569161e0-463d-4f80-a37b-331712d3442d"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "313/313 [==============================] - 3s 9ms/step - loss: 498.9224 - accuracy: 0.1000\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[498.92236328125, 0.10000000149011612]"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 55
+        }
+      ],
+      "source": [
+        "Siddique_cnn.evaluate(X_test,y_test)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# New Section"
+      ],
+      "metadata": {
+        "id": "4f-O944IG4wZ"
+      }
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "name": "python3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
